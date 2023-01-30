@@ -15,25 +15,28 @@ function Home() {
   }));
   
   return (
-    <div className="App">
+    <Container>
       <ProductContainer>
         {categories.map((category) => (
-          <ProductCategory key={category.name} name={ category.name} image={JSON.parse(category.image)[0]} />
+          <ProductCategory key={category.name} name={ category.name} image={category.image[0]} />
         ))}
       </ProductContainer>
-    </div>
+    </Container>
   );
 }
 
 export default Home;
 
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100vh;
+`
+
 const ProductContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background: #00416A;  
-  background: -webkit-linear-gradient(to right, #E4E5E6, #00416A); 
-  background: linear-gradient(to right, #E4E5E6, #00416A);
 
 `;
 

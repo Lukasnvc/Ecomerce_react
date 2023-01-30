@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import {useNavigate, generatePath} from 'react-router-dom'
+import { PRODUCT_LIST_PATH } from "../../routes/const";
 
-const ProductCategory = ({name, image}) => {
+const ProductCategory = ({ name, image }) => {
+  const navigate = useNavigate()
+  const productPath = generatePath(PRODUCT_LIST_PATH, { category: name })
+  
   return (
-    <ProductItem>
+    <ProductItem onClick={() => navigate(productPath)}>
       <h4> {name}</h4>
       <img src={image} alt={name} />
     </ProductItem>
@@ -21,6 +26,7 @@ const ProductItem = styled.div`
   border-radius: 5px;
   padding-top: 5px;
   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 10px;
   transition: transform 0.7s ease-in-out;
 
     &:hover {

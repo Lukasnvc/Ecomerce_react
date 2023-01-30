@@ -1,13 +1,16 @@
 import Home from "../pages/Home/Home";
 import Products from "../pages/Products/Products";
 
+export const HOME_PATH = "/";
+export const PRODUCT_LIST_PATH = "/:category";
+
 export const routes = [
   {
-    path: "/",
+    path: HOME_PATH,
     Component: Home,
   },
   {
-    path: "/:category",
+    path: PRODUCT_LIST_PATH,
     Component: Products,
   },
 ];
