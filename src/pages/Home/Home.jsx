@@ -29,7 +29,7 @@ export default Home;
 
 const Container = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     height: 100vh;
 `
 

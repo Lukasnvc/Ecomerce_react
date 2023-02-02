@@ -1,4 +1,4 @@
-import {useParams} from 'react-router-dom'
+import {useParams, useNavigate, generatePath} from 'react-router-dom'
 import { ProductContext } from '../../contexts/ProductContext';
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
@@ -6,9 +6,11 @@ import { capitalizeFirstLetter } from '../../utils/string';
 import Select from 'react-select'
 import { getUniqueArrayItems } from '../../utils/array'
 import { size } from '../../consts/mediaQueries';
+import { PRODUCT_PATH } from '../../routes/const';
 
 
 const Products = () => {
+  const navigate = useNavigate()
   const { category } = useParams()
   const { products } = useContext(ProductContext)
   const [selectedColors, setSelectedColors] = useState([])
@@ -26,6 +28,10 @@ const Products = () => {
   const filteredByColor = categoryProducts.filter(product => selectedColorsArray.includes(product.color.toLowerCase()))
   const filteredProducts = filteredByColor.length? filteredByColor : categoryProducts
   
+  const navigateToProduct = (category, id) => {
+    const path = generatePath(PRODUCT_PATH, { category, id });
+    navigate(path)
+  } 
   return (
     <div>
       <FilterContainer>
@@ -34,7 +40,7 @@ const Products = () => {
         </Filter></FilterContainer>
     <ProductsContainer>
       {filteredProducts.map((product) => (
-        <ProductItem key={product.id}>
+        <ProductItem key={product.id} onClick={()=> navigateToProduct(category, product.id)}>
           <img src={product.picUrl[0]} alt={product.name} />
           <ProductName>{capitalizeFirstLetter(product.name.toLowerCase())}</ProductName>
           <ProductName>€{product.price}</ProductName>
@@ -48,7 +54,6 @@ const Products = () => {
 export default Products;
 
 const FilterContainer = styled.div`
-  padding: 40px 40px 0 40px;
   display: grid;
   grid-template-columns: repeat(4,1fr);
   @media (max-width: ${size.tablet}) {
@@ -61,14 +66,14 @@ const FilterContainer = styled.div`
 `
 
 const Filter = styled.div`
-  margin-right: 40px;
+margin-right: 40px;
+margin-bottom: 24px;
 `
 
 const ProductsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 24px;
-  padding: 40px;
   @media (max-width: ${size.tablet}) {
     grid-template-columns: repeat(2,1fr);
   }
