@@ -11,6 +11,7 @@ const Product = () => {
   } 
   return (
   
+    
       <div>{product.name}</div>
 
   );
