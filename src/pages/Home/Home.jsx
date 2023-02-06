@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ProductCategory from "./ProductCategory";
 
 function Home() {
-  const { products } = useContext(ProductContext);
+  const { products, isLoading, error } = useContext(ProductContext);
   const uniqCategories = getUniqueArrayItems(
     products.map((product) => product.type)
   );
@@ -13,14 +13,20 @@ function Home() {
     name: category,
     image: products.find((product) => product.type === category).picUrl,
   }));
-  
+
+  if (error) {
+    return error
+  }
   return (
+   
     <Container>
-      <ProductContainer>
-        {categories.map((category) => (
-          <ProductCategory key={category.name} name={ category.name} image={category.image[0]} />
-        ))}
-      </ProductContainer>
+      {isLoading ? ("Kraunasi...") : 
+       <ProductContainer>
+       {categories.map((category) => (
+         <ProductCategory key={category.name} name={ category.name} image={category.image[0]} />
+       ))}
+     </ProductContainer>}
+     
     </Container>
   );
 }
