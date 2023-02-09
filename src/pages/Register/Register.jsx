@@ -4,34 +4,40 @@ import styled from 'styled-components';
 import { size } from '../../consts/mediaQueries';
 import Button from '../../components/Button/Button';
 import * as Yup from 'yup';
-import { LOGIN } from '../../routes/const';
-import { Link } from 'react-router-dom';
+import { LOGIN_PATH } from '../../routes/const';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { createUser } from '../../Api/user';
 
 
 const Register = () => {
-  const handleSubmit = (values, {setSubmitting, resetForm}) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2))
-      setSubmitting(false)
-      resetForm()
-    }, 2000)
+  const navigate = useNavigate()
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    const { confirm_password, ...user } = values;
+    createUser(user)
+      .then(() => {
+        navigate(LOGIN_PATH)
+          .catch((error) => {
+          console.log('Failed to create user :', error)
+        })
+    })
   }
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required('Required'),
+    first_name: Yup.string().required("Required"),
+    last_name: Yup.string().required('Required'),
     email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string().required('Required'),
-    confirmPassword: Yup.string().required("Please retype your password.").oneOf([Yup.ref("password")], "Your passwords do not match."),
+    confirm_password: Yup.string().required("Please retype your password.").oneOf([Yup.ref("password")], "Your passwords do not match."),
   })
   return (
     <div>
       <Formik initialValues={{
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirm_password: ''
       }}
         validationSchema={validationSchema}
         // validate={(values) => {
@@ -50,13 +56,13 @@ const Register = () => {
         {({ isSubmitting }) => (
           <StyledForm>
             <Title>Register your account</Title>
-            <FormikInput name='firstName' placeholder='First Name'/>
-            <FormikInput name='lastName' placeholder='Last Name'/>
+            <FormikInput name='first_name' placeholder='First Name'/>
+            <FormikInput name='last_name' placeholder='Last Name'/>
             <FormikInput name='email' type='email' placeholder='Email'/>
             <FormikInput name='password' type='password' placeholder='Password' />
-            <FormikInput name='confirmPassword' type='password' placeholder='Repeat Password'/>
+            <FormikInput name='confirm_password' type='password' placeholder='Repeat Password'/>
             <Button type='submit' disabled={isSubmitting}>Submit</Button>
-            <StyledLink to={LOGIN}>Sign in</StyledLink>
+            <StyledLink to={LOGIN_PATH}>Sign in</StyledLink>
         </StyledForm>)}
       </Formik>
     </div>

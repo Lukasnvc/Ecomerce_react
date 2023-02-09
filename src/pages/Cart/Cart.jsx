@@ -4,6 +4,8 @@ import {useContext} from 'react'
 import { euroSymbol } from '../../consts/currency';
 import { size } from '../../consts/mediaQueries';
 import Button from '../../components/Button/Button'
+import { Link } from 'react-router-dom';
+import { LOGIN_PATH } from '../../routes/const';
 
 const Cart = () => {
   const { products } = useContext(ProductContext)
@@ -27,7 +29,7 @@ const Cart = () => {
       ))}
       </CartContainer>
       <BtnContainer>
-        <Button>Checkout</Button>
+        <Button as={Link} to={LOGIN_PATH}>Checkout</Button>
       </BtnContainer>
     </Container>
   );
