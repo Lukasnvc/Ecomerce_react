@@ -7,11 +7,14 @@ import * as Yup from 'yup';
 import { LOGIN_PATH } from '../../routes/const';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { createUser } from '../../Api/user';
+import { useCreateUser } from '../../hooks/user';
 
 
 const Register = () => {
   const navigate = useNavigate()
+
+  const {mutateAsync: createUser} = useCreateUser();
+
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     const { confirm_password, ...user } = values;
     createUser(user)

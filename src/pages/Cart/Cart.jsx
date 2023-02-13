@@ -1,15 +1,26 @@
 import styled from 'styled-components';
-import { ProductContext } from '../../contexts/ProductContext';
-import {useContext} from 'react'
 import { euroSymbol } from '../../consts/currency';
 import { size } from '../../consts/mediaQueries';
 import Button from '../../components/Button/Button'
 import { Link } from 'react-router-dom';
-import { LOGIN_PATH } from '../../routes/const';
+import { LOGIN_PATH, CHECKOUT_PATH } from '../../routes/const';
+import { useProducts } from "../../hooks/products";
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 const Cart = () => {
-  const { products } = useContext(ProductContext)
-  const cartProducts = products.slice(0,2)
+  const { data, isLoading, error } = useProducts();
+  const products = data || []
+
+  const {isLoggedIn} = useContext(UserContext)
+
+  const cartProducts = products.slice(0, 2)
+  if (isLoading) {
+    return 'Kraunasi...'
+  }
+  if (error) {
+    return 'Nepavyko gauti duomenu'
+  }
   return (
     <Container>
       <Header>
@@ -29,7 +40,7 @@ const Cart = () => {
       ))}
       </CartContainer>
       <BtnContainer>
-        <Button as={Link} to={LOGIN_PATH}>Checkout</Button>
+        <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH :LOGIN_PATH}>Checkout</Button>
       </BtnContainer>
     </Container>
   );

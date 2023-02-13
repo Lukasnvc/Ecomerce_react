@@ -26,6 +26,7 @@ const Topbar = () => {
 export default Topbar;
 
 const Container = styled.div`
+  margin: 0;
   padding: 6px 30px;
   display: flex;
   justify-content: space-between;

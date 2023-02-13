@@ -1,6 +1,6 @@
 import {useParams, useNavigate, generatePath} from 'react-router-dom'
-import { ProductContext } from '../../contexts/ProductContext';
-import { useContext, useState } from 'react';
+import { useProducts } from "../../hooks/products";
+import { useState } from 'react';
 import styled from 'styled-components';
 import { capitalizeFirstLetter } from '../../utils/string';
 import Select from 'react-select'
@@ -10,9 +10,11 @@ import { PRODUCT_PATH } from '../../routes/const';
 
 
 const Products = () => {
+  const { data, isLoading, error } = useProducts();
+  const products = data || [];
   const navigate = useNavigate()
   const { category } = useParams()
-  const { products } = useContext(ProductContext)
+  
   const [selectedColors, setSelectedColors] = useState([])
 
   const categoryProducts = products.filter((product) => product.type === category);
@@ -32,6 +34,12 @@ const Products = () => {
     const path = generatePath(PRODUCT_PATH, { category, id });
     navigate(path)
   } 
+  if (isLoading) {
+    return 'Kraunasi...'
+  }
+  if (error) {
+    return 'Nepavyko gauti duomenu'
+  }
   return (
     <div>
       <FilterContainer>
@@ -90,6 +98,7 @@ const ProductItem = styled.div`
   background-color: #ffffff;
   border-radius: 5px;
   border: 1px solid #e7e3e1;
+  cursor: pointer;
   img {
     border-radius: 5px;
     width: 100%;

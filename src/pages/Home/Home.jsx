@@ -1,11 +1,12 @@
-import { ProductContext } from "../../contexts/ProductContext";
-import { useContext } from "react";
 import { getUniqueArrayItems } from "../../utils/array";
 import styled from "styled-components";
 import ProductCategory from "./ProductCategory";
+import { useProducts } from "../../hooks/products";
 
 function Home() {
-  const { products, isLoading, error } = useContext(ProductContext);
+  const { data, isLoading, error } = useProducts();
+  const products = data || []
+
   const uniqCategories = getUniqueArrayItems(
     products.map((product) => product.type)
   );
@@ -14,9 +15,13 @@ function Home() {
     image: products.find((product) => product.type === category).picUrl,
   }));
 
-  if (error) {
-    return error
+  if (isLoading) {
+    return 'Kraunasi...'
   }
+  if (error) {
+    return 'Nepavyko gauti duomenu'
+  }
+
   return (
    
     <Container>
