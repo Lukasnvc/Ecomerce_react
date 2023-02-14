@@ -1,7 +1,12 @@
+import { CartProvider } from "./CartContext";
 import { UserProvider } from "./UserContext";
 
 const GeneralContext = ({ children }) => {
-  return <UserProvider>{children}</UserProvider>;
+  return (
+    <UserProvider>
+      <CartProvider>{children}</CartProvider>
+    </UserProvider>
+  );
 };
 
 export default GeneralContext;

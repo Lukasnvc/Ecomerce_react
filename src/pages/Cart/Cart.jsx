@@ -4,23 +4,16 @@ import { size } from '../../consts/mediaQueries';
 import Button from '../../components/Button/Button'
 import { Link } from 'react-router-dom';
 import { LOGIN_PATH, CHECKOUT_PATH } from '../../routes/const';
-import { useProducts } from "../../hooks/products";
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
+import { CartContext } from '../../contexts/CartContext';
 
 const Cart = () => {
-  const { data, isLoading, error } = useProducts();
-  const products = data || []
-
+  const {cartItems} = useContext(CartContext)
+  
+console.log(cartItems)
   const {isLoggedIn} = useContext(UserContext)
 
-  const cartProducts = products.slice(0, 2)
-  if (isLoading) {
-    return 'Kraunasi...'
-  }
-  if (error) {
-    return 'Nepavyko gauti duomenu'
-  }
   return (
     <Container>
       <Header>
@@ -28,14 +21,15 @@ const Cart = () => {
         <p>Reserved items for 60min</p>
       </Header>
       <CartContainer>
-      {cartProducts.map((product) => (
+      {cartItems.map((product) => (
         <CartItem key={product.id}>
           <img src={product.picUrl[0]} alt={product.name} />
           <div>
           <CartItemPrice>{euroSymbol}{product.price}</CartItemPrice>
             <p>{product.name}</p>
             <CartItemColor>{product.color}</CartItemColor>
-            </div>
+          </div>
+          <ItemQuantity>x{product.quantity}</ItemQuantity>
         </CartItem>
       ))}
       </CartContainer>
@@ -47,6 +41,13 @@ const Cart = () => {
 }
 
 export default Cart;
+
+const ItemQuantity = styled.div`
+  flex: 1;
+  align-self: center;
+  margin-right: 32px;
+  text-align: right;
+`
 
 const Container = styled.div`
   max-width: ${size.tablet};
