@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { inputBgColor } from '../../consts/colors';
 import FormikSelect from '../../components/Formik/FormikSelect'; 
 import { CartContext } from '../../contexts/CartContext';
+import { useNavigate } from 'react-router-dom'
 
 const validationSchema = Yup.object().shape({
   // country: Yup.object().shape({ label: Yup.string().required(), value: Yup.string().required() }).required('Required'),
@@ -23,11 +24,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const PaymentForm = () => {
+  const navigate = useNavigate()
 const {resetCart} = useContext(CartContext)
   const handleSubmit = (value, {resetForm}) => {
     console.log(value)
     resetCart()
     resetForm()
+    navigate('/')
   };
   return (
     <Formik
