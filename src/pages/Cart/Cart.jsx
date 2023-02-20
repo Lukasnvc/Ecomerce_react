@@ -9,7 +9,7 @@ import { CartContext } from '../../contexts/CartContext';
 import CartItem from './CartItem';
 
 const Cart = () => {
-  const {cartItems} = useContext(CartContext)
+  const {cartItems, handleUpdateQuantity} = useContext(CartContext)
   
 console.log(cartItems)
   const {isLoggedIn} = useContext(UserContext)
@@ -17,16 +17,22 @@ console.log(cartItems)
   return (
     <Container>
       <Header>
-        <h2>MY BAG</h2>
-        <p>Reserved items for 60min</p>
+        {cartItems.length ? <><h2>MY BAG</h2>
+        <p>Reserved items for 60min</p> </> : <p>Your bag is empty</p>}
+        
       </Header>
       <CartContainer>
       {cartItems.map((product) => (
-        <CartItem key={product.id} product={product} />
+        <CartItem
+          key={product.id}
+          product={product}
+          handleIncreaseQuantity={() => handleUpdateQuantity(product.id, "increase")}
+          handleDecreaseQuantity={() => handleUpdateQuantity(product.id)} />
       ))}
       </CartContainer>
       <BtnContainer>
-        <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH :LOGIN_PATH}>Checkout</Button>
+        {!!cartItems.length &&  <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH :LOGIN_PATH}>Checkout</Button>}
+       
       </BtnContainer>
     </Container>
   );

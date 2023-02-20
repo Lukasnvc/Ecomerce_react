@@ -1,12 +1,21 @@
 import { CartContext } from "../../contexts/CartContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import CartItem from "../Cart/CartItem";
 import { size } from "../../consts/mediaQueries";
 import PaymentForm from "./PaymentForm";
+import { useNavigate } from "react-router";
+import { CART_PATH } from "../../routes/const";
 
 const CheckOut = () => {
-  const {cartItems} = useContext(CartContext)
+  const { cartItems, handleUpdateQuantity } = useContext(CartContext)
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!cartItems.length) {
+      navigate(CART_PATH)
+    }
+     
+  }, [cartItems.length, navigate]);
   return (
     <Container>
       <ShippingContainer>
@@ -14,7 +23,10 @@ const CheckOut = () => {
       </ShippingContainer>
        <CartContainer>
       {cartItems.map((product) => (
-        <CartItem key={product.id} product={product} />
+        <CartItem key={product.id} product={product}
+        handleIncreaseQuantity={() => handleUpdateQuantity(product.id, "increase")}
+        handleDecreaseQuantity={() => handleUpdateQuantity(product.id)}
+        />
       ))}
       </CartContainer>
     </Container>

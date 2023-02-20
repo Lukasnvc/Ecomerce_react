@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { searchBgColor } from "../../consts/colors";
 import {AiOutlineSearch} from 'react-icons/ai'
 
-const SearchBar = () => {
+const SearchBar = ({value, setValue}) => {
   return (
     <Wrapper>
-      <Input placeholder="Search" />
+      <Input placeholder="Search" value={value} onChange={(e) => setValue(e.target.value)} />
       <AiOutlineSearch/>
     </Wrapper>
   );

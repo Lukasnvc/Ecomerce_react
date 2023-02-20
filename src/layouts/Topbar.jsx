@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import SearchBar from "../components/SearchBar/SearchBar";
 import { primaryButtonColor } from "../consts/colors";
 import { Link } from 'react-router-dom'
 import { CART_PATH, HOME_PATH } from '../routes/const'
-import {FaShoppingCart} from 'react-icons/fa'
+import { FaShoppingCart } from 'react-icons/fa';
+import EnhancedSearchBar from "../components/SearchBar/EnhancedSearchBar";
+
 
 const Topbar = () => {
   return (
@@ -14,7 +15,7 @@ const Topbar = () => {
      
       <ItemContainer>
         
-        <SearchBar />
+        <EnhancedSearchBar/>
         <Link to={CART_PATH}>
           <FaShoppingCart />
           </Link>
