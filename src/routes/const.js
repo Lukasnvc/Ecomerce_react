@@ -8,7 +8,7 @@ import Register from "../pages/Register/Register";
 import CheckOut from "../pages/CheckOut/CheckOut";
 
 export const HOME_PATH = "/";
-export const PRODUCT_LIST_PATH = "category/:category";
+export const PRODUCT_LIST_PATH = "/category/:category";
 export const PRODUCT_PATH = "/category/:category/:id";
 export const CART_PATH = "/cart";
 export const LOGIN_PATH = "/login";

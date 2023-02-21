@@ -1,16 +1,45 @@
 import React from "react";
 import styled from "styled-components";
 import { primaryButtonColor } from "../consts/colors";
-import { Link } from 'react-router-dom'
-import { CART_PATH, HOME_PATH } from '../routes/const'
-import { FaShoppingCart } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom'
+import { CART_PATH, HOME_PATH, LOGIN_PATH } from '../routes/const'
+import { FaShoppingCart, FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
 import EnhancedSearchBar from "../components/SearchBar/EnhancedSearchBar";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { toast } from "react-hot-toast";
+import CategoriesButton from "../components/CategoriesButton";
+
 
 
 const Topbar = () => {
+  const navigate = useNavigate();
+  const { handleSignOut, isLoggedIn } = useContext(UserContext);
+
+  const handleClickSign = () => {
+    if (isLoggedIn) {
+      handleSignOut()
+      navigate(HOME_PATH)
+      // toast.success("You logged out")
+      toast('You logged out',
+      {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      }
+    );
+
+    } else {
+      navigate(LOGIN_PATH)
+    }
+   
+  }
+  
   return (
     <Container>
-      <NavigationItem>Categories</NavigationItem>
+      <CategoriesButton/>
       <Logo as={Link} to={HOME_PATH}>E-shop</Logo>
      
       <ItemContainer>
@@ -18,7 +47,10 @@ const Topbar = () => {
         <EnhancedSearchBar/>
         <Link to={CART_PATH}>
           <FaShoppingCart />
-          </Link>
+        </Link>
+        <SignOut onClick={handleClickSign}>
+          {isLoggedIn ? <FaSignOutAlt fontSize={18} /> : <FaSignInAlt fontSize={18} />}
+          </SignOut>
       </ItemContainer>
     </Container>
   );
@@ -56,4 +88,8 @@ const ItemContainer=styled.div`
   svg {
     font-size: 20px;
   }
+`
+
+const SignOut = styled.div`
+  cursor: pointer;
 `

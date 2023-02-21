@@ -2,13 +2,13 @@ import { Formik, Form } from 'formik';
 import * as Yup from "yup";
 import FormikInput from '../../components/Formik/FormikInput';
 import Button from '../../components/Button/Button';
-import { UserContext } from '../../contexts/UserContext';
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { inputBgColor } from '../../consts/colors';
 import FormikSelect from '../../components/Formik/FormikSelect'; 
 import { CartContext } from '../../contexts/CartContext';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const validationSchema = Yup.object().shape({
   // country: Yup.object().shape({ label: Yup.string().required(), value: Yup.string().required() }).required('Required'),
@@ -31,6 +31,7 @@ const {resetCart} = useContext(CartContext)
     resetCart()
     resetForm()
     navigate('/')
+    toast.success('Purchase confirmed')
   };
   return (
     <Formik

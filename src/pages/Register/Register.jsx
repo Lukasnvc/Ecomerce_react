@@ -6,8 +6,8 @@ import Button from '../../components/Button/Button';
 import * as Yup from 'yup';
 import { LOGIN_PATH } from '../../routes/const';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useCreateUser } from '../../hooks/user';
+import { toast } from 'react-hot-toast';
 
 
 const Register = () => {
@@ -20,6 +20,7 @@ const Register = () => {
     createUser(user)
       .then(() => {
         navigate(LOGIN_PATH)
+          toast.success('Successfully registered')
           .catch((error) => {
           console.log('Failed to create user :', error)
         })

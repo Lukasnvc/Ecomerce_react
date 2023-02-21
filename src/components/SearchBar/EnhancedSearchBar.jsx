@@ -11,8 +11,8 @@ import { generatePath } from "react-router-dom";
 const EnhancedSearchBar = () => {
   const [search, setSearch] = useState("");
   const { data } = useProducts();
-  const products = (data || []).slice(0, 5);
-  const filteredItems = products.filter((product) => product.name.toLowerCase().includes(search.toLowerCase()));
+  const products = (data || []);
+  const filteredItems = products.filter((product) => product.name.toLowerCase().includes(search.toLowerCase())).slice(0, 4);
   console.log(filteredItems)
   return (
     <Popover
@@ -42,3 +42,5 @@ p {
   padding: 8px;
   font-size: 13px;
   }`;
+
+

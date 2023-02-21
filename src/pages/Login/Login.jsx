@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { useLoginUser } from '../../hooks/user';
+import { toast } from 'react-hot-toast';
 
 
 const Login = () => {
@@ -22,7 +23,7 @@ const Login = () => {
       .then((response) => {
         setUser(response)
         navigate(CHECKOUT_PATH)
-        
+        toast.success('Successfully logged in')
       })
       .catch((error) => {
       console.log('Falied to login:', error)
